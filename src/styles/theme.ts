@@ -22,20 +22,18 @@ export const THEME = {
     RED: "#E8BAAB",
     RED_DARK: "#C44117",
     RED_LIGHT: "#F2DFD8",
+  },
+  FONTS: {
+    BALOO_BOLD: "Baloo2_700Bold",
 
-    FONTS: {
-      BALOO_BOLD: "BALOO2_700Bold",
-
-      ROBOTO_REGULAR: "Roboto_400Regular",
-      ROBOTO_BOLD: "Roboto_700Bold",
-    },
-
-    FONT_SIZE: {
-      XL: 36,
-      LG: 24,
-      MD: 20,
-      SM: 16,
-      XS: 14,
-    },
+    ROBOTO_REGULAR: "Roboto_400Regular",
+    ROBOTO_BOLD: "Roboto_700Bold",
+  },
+  FONT_SIZE: {
+    XL: 36,
+    LG: 24,
+    MD: 20,
+    SM: 16,
+    XS: 14,
   },
 };
