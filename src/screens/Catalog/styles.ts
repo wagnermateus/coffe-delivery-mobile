@@ -8,15 +8,11 @@ export const Styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingTop: 16,
   },
-
-  Header: {
-    backgroundColor: THEME.COLORS.GREY_100,
-  },
   Navbar: {
-    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
   },
+
   Location: {
     color: THEME.COLORS.GREY_900,
     fontFamily: THEME.FONTS.ROBOTO_REGULAR,
@@ -29,6 +25,7 @@ export const Styles = StyleSheet.create({
     marginBottom: 15,
   },
   Input: {
+    flex: 1,
     backgroundColor: "transparent",
     color: THEME.COLORS.GREY_900,
     fontFamily: THEME.FONTS.ROBOTO_REGULAR,
