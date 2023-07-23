@@ -26,7 +26,7 @@ export const COFFES = [
       },
       {
         id: 2,
-        name: "Americano",
+        name: "Expresso Americano",
         image: americano,
         description: "Expresso diluído, menos intenso que o tradicional",
         price: "9,90kzs",
@@ -48,7 +48,7 @@ export const COFFES = [
       {
         id: 5,
         name: "Expresso Gelado",
-        image: "",
+        image: cafeComGelado,
         description: "Bebida preparada com café expresso e cubos de gelo",
         price: "9,90kzs",
       },

@@ -4,5 +4,5 @@ export type CoffeDTO = {
   image: any;
   description: string;
   price: string;
-  category: string;
+  category?: string;
 };
