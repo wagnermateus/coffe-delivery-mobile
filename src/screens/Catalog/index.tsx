@@ -17,6 +17,7 @@ import { THEME } from "../../styles/theme";
 import { CarouselCoffeeCard } from "../../components/CarouselCoffeeCard";
 import { COFFES } from "../../data/coffes";
 import { CoffeeCard } from "../../components/CoffeCard";
+
 export function Catalog() {
   const carouselCoffes = COFFES[1].data;
 
@@ -107,6 +108,7 @@ export function Catalog() {
             <SectionList
               data={COFFES}
               sections={COFFES}
+              scrollEnabled={false}
               renderItem={({ item }) => (
                 <CoffeeCard
                   description={item.description}

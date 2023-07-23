@@ -1,10 +1,15 @@
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { CoffeDTO } from "../../dtos/coffeeDTO";
 import { Styles } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
-export function CoffeeCard({ description, image, name, price }: CoffeDTO) {
+export function CoffeeCard({ id, description, image, name, price }: CoffeDTO) {
+  const navigation = useNavigation();
+  function onShowProduct() {
+    navigation.navigate("product", { id });
+  }
   return (
-    <TouchableOpacity style={Styles.Container}>
+    <TouchableOpacity style={Styles.Container} onPress={onShowProduct}>
       <Image source={image} alt="Café" style={Styles.Image} />
       <View style={Styles.Content}>
         <View style={Styles.Details}>

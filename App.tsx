@@ -5,8 +5,9 @@ import {
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
 import { Baloo2_700Bold } from "@expo-google-fonts/baloo-2";
-import { Routes } from "./src/routes";
+
 import { Loading } from "./src/components/Loading";
+import { Routes } from "./src/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
