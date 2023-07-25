@@ -5,8 +5,14 @@ import { Styles } from "./styles";
 import { Button } from "../../components/Button";
 import { GoBackButton } from "../../components/GoBackButton";
 import { CartItem } from "../../components/CartItem";
+import { useNavigation } from "@react-navigation/native";
 
 export function Cart() {
+  const navigation = useNavigation();
+
+  function handleConfirmOrder() {
+    navigation.navigate("checkout");
+  }
   return (
     <SafeAreaView style={Styles.Container}>
       <View style={Styles.Header}>
@@ -21,7 +27,11 @@ export function Cart() {
           <Text style={Styles.TotalText}>Valor total</Text>
           <Text style={Styles.TotalValue}>KZS 9,90</Text>
         </View>
-        <Button title="Confirmar pedido" type="secondary" />
+        <Button
+          title="Confirmar pedido"
+          type="secondary"
+          onPress={handleConfirmOrder}
+        />
       </View>
     </SafeAreaView>
   );

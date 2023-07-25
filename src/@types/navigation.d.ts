@@ -6,6 +6,7 @@ export declare global {
         id: number;
       };
       cart: undefined;
+      checkout: undefined;
     }
   }
 }
