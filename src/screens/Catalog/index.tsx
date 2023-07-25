@@ -15,11 +15,11 @@ import { MagnifyingGlass, MapPin } from "phosphor-react-native";
 import headerBackgroundImage from "../../assets/coffe-bg.png";
 import { THEME } from "../../styles/theme";
 import { CarouselCoffeeCard } from "../../components/CarouselCoffeeCard";
-import { COFFES } from "../../data/coffes";
+import { COFFES, COFFES_SECTIONS } from "../../data/coffes";
 import { CoffeeCard } from "../../components/CoffeCard";
 
 export function Catalog() {
-  const carouselCoffes = COFFES[1].data;
+  const carouselCoffes = [COFFES[0], COFFES[5], COFFES[10]];
 
   return (
     <ScrollView>
@@ -36,7 +36,7 @@ export function Catalog() {
             </Text>
             <Text style={Styles.Location}>Kilamba Kiaxi, LD</Text>
           </View>
-          <CartButton />
+          <CartButton isEmpty />
         </View>
 
         <View style={Styles.SearchBar}>
@@ -88,7 +88,7 @@ export function Catalog() {
                 image={item.image}
                 name={item.name}
                 price={item.price}
-                category={"Tradicional"}
+                category={item.category}
               />
             )}
           />
@@ -107,7 +107,7 @@ export function Catalog() {
             </View>
             <SectionList
               data={COFFES}
-              sections={COFFES}
+              sections={COFFES_SECTIONS}
               scrollEnabled={false}
               renderItem={({ item }) => (
                 <CoffeeCard
