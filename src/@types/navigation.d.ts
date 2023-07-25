@@ -5,6 +5,7 @@ export declare global {
       product: {
         id: number;
       };
+      cart: undefined;
     }
   }
 }

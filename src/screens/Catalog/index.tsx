@@ -31,9 +31,8 @@ export function Catalog() {
               marginBottom: 48,
             }}
           >
-            <Text>
-              <MapPin size={20} color={THEME.COLORS.PURPLE} weight="fill" />
-            </Text>
+            <MapPin size={20} color={THEME.COLORS.PURPLE} weight="fill" />
+
             <Text style={Styles.Location}>Kilamba Kiaxi, LD</Text>
           </View>
           <CartButton isEmpty />

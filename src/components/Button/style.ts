@@ -9,12 +9,18 @@ export const Styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 6,
-    backgroundColor: THEME.COLORS.PURPLE_DARK,
   },
   Title: {
     fontFamily: THEME.FONTS.ROBOTO_BOLD,
     fontSize: THEME.FONT_SIZE.SM,
     textTransform: "uppercase",
     color: THEME.COLORS.WHITE,
+  },
+
+  Primary: {
+    backgroundColor: THEME.COLORS.PURPLE_DARK,
+  },
+  Secondary: {
+    backgroundColor: THEME.COLORS.YELLOW_DARK,
   },
 });

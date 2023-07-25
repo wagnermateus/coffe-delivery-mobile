@@ -7,7 +7,14 @@ type ButtonProps = TouchableOpacityProps & {
 };
 export function Button({ title, type = "primary", ...rest }: ButtonProps) {
   return (
-    <TouchableOpacity style={Styles.Container} {...rest}>
+    <TouchableOpacity
+      style={
+        type === "primary"
+          ? [Styles.Container, Styles.Primary]
+          : [Styles.Container, Styles.Secondary]
+      }
+      {...rest}
+    >
       <Text style={Styles.Title}>{title}</Text>
     </TouchableOpacity>
   );
