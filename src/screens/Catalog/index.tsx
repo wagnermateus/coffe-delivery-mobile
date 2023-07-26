@@ -17,10 +17,52 @@ import { THEME } from "../../styles/theme";
 import { CarouselCoffeeCard } from "../../components/CarouselCoffeeCard";
 import { COFFES, COFFES_SECTIONS } from "../../data/coffes";
 import { CoffeeCard } from "../../components/CoffeCard";
+import { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
+type CoffesSectionsProps = typeof COFFES_SECTIONS;
+
+type FormDataProps = {
+  coffeeName: string;
+};
+const SearchCoffesSchema = yup.object({
+  coffeeName: yup.string().required(),
+});
 export function Catalog() {
+  const [coffesSections, setCoffesSction] =
+    useState<CoffesSectionsProps>(COFFES_SECTIONS);
+
+  const { handleSubmit, watch, control } = useForm<FormDataProps>({
+    resolver: yupResolver(SearchCoffesSchema),
+  });
   const carouselCoffes = [COFFES[0], COFFES[5], COFFES[10]];
 
+  const searchInputIsEmpty =
+    watch("coffeeName") === undefined || watch("coffeeName").length === 0;
+
+  function handleSearchCoffe({ coffeeName }: FormDataProps) {
+    const foundCoffees: CoffesSectionsProps = [];
+
+    for (let section of COFFES_SECTIONS) {
+      const coffeesInSection = section.data.filter((coffee) =>
+        coffee.name.toLowerCase().includes(coffeeName.toLowerCase())
+      );
+      if (coffeesInSection.length > 0) {
+        foundCoffees.push({
+          title: section.title,
+          data: [...coffeesInSection],
+        });
+      }
+    }
+    setCoffesSction(foundCoffees);
+  }
+  useEffect(() => {
+    if (searchInputIsEmpty) {
+      setCoffesSction(COFFES_SECTIONS);
+    }
+  }, [searchInputIsEmpty]);
   return (
     <ScrollView>
       <SafeAreaView style={Styles.Container}>
@@ -44,10 +86,20 @@ export function Catalog() {
           </Text>
           <View style={Styles.InputWrapper}>
             <MagnifyingGlass size={16} color={THEME.COLORS.GREY_400} />
-            <TextInput
-              style={Styles.Input}
-              placeholder="Pesquisar"
-              placeholderTextColor={THEME.COLORS.GREY_400}
+            <Controller
+              control={control}
+              name="coffeeName"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={Styles.Input}
+                  placeholder="Pesquisar"
+                  placeholderTextColor={THEME.COLORS.GREY_400}
+                  onChangeText={onChange}
+                  value={value}
+                  onSubmitEditing={handleSubmit(handleSearchCoffe)}
+                  returnKeyType="send"
+                />
+              )}
             />
           </View>
           <View
@@ -105,8 +157,7 @@ export function Catalog() {
               </TouchableOpacity>
             </View>
             <SectionList
-              data={COFFES}
-              sections={COFFES_SECTIONS}
+              sections={coffesSections}
               scrollEnabled={false}
               renderItem={({ item }) => (
                 <CoffeeCard
@@ -123,6 +174,11 @@ export function Catalog() {
               contentContainerStyle={{
                 gap: 32,
               }}
+              ListEmptyComponent={() => (
+                <Text style={{ marginBottom: 50 }}>
+                  Ups!Nenhum café foi encontrado !
+                </Text>
+              )}
             />
           </View>
         </View>
