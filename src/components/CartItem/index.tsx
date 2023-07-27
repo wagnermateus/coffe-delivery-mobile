@@ -1,33 +1,46 @@
 import { View, Image, Text, TouchableOpacity } from "react-native";
-import americano from "../../assets/americano.png";
 import { Counter } from "../Counter";
 import { Trash } from "phosphor-react-native";
 import { Styles } from "./styles";
 import { THEME } from "../../styles/theme";
+import { ItemProps } from "../../contexts/CartContext";
+import { useCart } from "../../hooks/useCart";
 
-export function CartItem() {
+export function CartItem({
+  amountInMl,
+  id,
+  image,
+  name,
+  price,
+  quantity,
+}: ItemProps) {
+  const { removeItemFromCart } = useCart();
+
   return (
     <View style={Styles.Container}>
       <Image
-        source={americano}
+        source={image}
         alt="Chávena de café"
         resizeMode="contain"
         style={Styles.Image}
       />
 
       <View style={Styles.Info}>
-        <Text style={Styles.Name}>Irlandês</Text>
-        <Text style={Styles.Quantity}>227ml</Text>
+        <Text style={Styles.Name}>{name}</Text>
+        <Text style={Styles.Quantity}>{amountInMl}</Text>
         <View style={Styles.Controls}>
           <View style={Styles.CounterContainer}>
-            <Counter />
+            <Counter value={quantity} id={id} />
           </View>
-          <TouchableOpacity style={Styles.DeleteButton}>
+          <TouchableOpacity
+            style={Styles.DeleteButton}
+            onPress={() => removeItemFromCart(id)}
+          >
             <Trash color={THEME.COLORS.PURPLE} size={20} />
           </TouchableOpacity>
         </View>
       </View>
-      <Text style={Styles.Price}>KZS 9,90</Text>
+      <Text style={Styles.Price}>Kzs {price}</Text>
     </View>
   );
 }

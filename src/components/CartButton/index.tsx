@@ -2,17 +2,25 @@ import { ShoppingCart } from "phosphor-react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { THEME } from "../../styles/theme";
 import { Styles } from "./styles";
+import { useCart } from "../../hooks/useCart";
+import { useNavigation } from "@react-navigation/native";
 
-type CartButtomProps = {
-  isEmpty: boolean;
-};
+export function CartButton() {
+  const { quantityOfItemsInCart, items } = useCart();
+  const noItemsInCart = items.length === 0;
+  const navigation = useNavigation();
+  const isEmpty = quantityOfItemsInCart === 0;
 
-export function CartButton({ isEmpty }: CartButtomProps) {
+  function handleGoToCart() {
+    navigation.navigate("cart");
+  }
   return (
-    <TouchableOpacity>
-      <View style={Styles.CounterBall}>
-        <Text style={Styles.Counter}>3</Text>
-      </View>
+    <TouchableOpacity onPress={handleGoToCart} disabled={noItemsInCart}>
+      {!isEmpty && (
+        <View style={Styles.CounterBall}>
+          <Text style={Styles.Counter}>{quantityOfItemsInCart}</Text>
+        </View>
+      )}
       <Text>
         <ShoppingCart
           color={isEmpty ? THEME.COLORS.YELLOW_DARK : THEME.COLORS.PURPLE}

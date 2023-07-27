@@ -22,8 +22,8 @@ export const Styles = StyleSheet.create({
   },
   Footer: {
     position: "absolute",
-    bottom: 0,
     width: "100%",
+    bottom: 0,
     paddingTop: 28,
     gap: 20,
     paddingBottom: 40,

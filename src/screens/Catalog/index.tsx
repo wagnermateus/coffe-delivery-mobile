@@ -77,7 +77,7 @@ export function Catalog() {
 
             <Text style={Styles.Location}>Kilamba Kiaxi, LD</Text>
           </View>
-          <CartButton isEmpty />
+          <CartButton />
         </View>
 
         <View style={Styles.SearchBar}>

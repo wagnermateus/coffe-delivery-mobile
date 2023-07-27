@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { Styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -13,20 +13,34 @@ import { Button } from "../../components/Button";
 import { Counter } from "../../components/Counter";
 import { CoffeeWithSmoke } from "../../components/CoffeeWithSmoke";
 import { GoBackButton } from "../../components/GoBackButton";
+import { useCart } from "../../hooks/useCart";
+import { ItemProps } from "../../contexts/CartContext";
 type RouteParamsProps = {
   id: number;
 };
 
 export function Product() {
+  const { addItemToCart, currentAmountOfCoffeeInMl, currentCounterValue } =
+    useCart();
   const navigation = useNavigation();
   const route = useRoute();
 
   const { id } = route.params as RouteParamsProps;
 
-  const coffee = COFFES.find((item) => item.id === id);
+  const coffee = COFFES.find((item) => item.id === id)!;
 
   function handleAddToCart() {
-    navigation.navigate("cart");
+    const item: ItemProps = {
+      id: coffee.id,
+      name: coffee.name,
+      image: coffee.image,
+      price: coffee.price,
+      amountInMl: currentAmountOfCoffeeInMl,
+      quantity: currentCounterValue,
+    };
+
+    addItemToCart(item);
+    navigation.navigate("catalog");
   }
   if (!coffee) {
     return <Loading />;
@@ -36,7 +50,7 @@ export function Product() {
       <SafeAreaView style={Styles.Container}>
         <View style={Styles.Navbar}>
           <GoBackButton type="primary" />
-          <CartButton isEmpty={false} />
+          <CartButton />
         </View>
         <View style={Styles.Main}>
           <Text style={Styles.CategoryTag}>{coffee.category}</Text>
