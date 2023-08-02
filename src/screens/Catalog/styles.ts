@@ -5,15 +5,15 @@ export const Styles = StyleSheet.create({
   Container: {
     flex: 1,
     backgroundColor: THEME.COLORS.GREY_100,
-
-    paddingTop: 16,
   },
   Navbar: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 32,
+    paddingVertical: 20,
   },
   SearchBar: {
+    paddingTop: 20,
     paddingHorizontal: 32,
   },
   Location: {
@@ -47,7 +47,6 @@ export const Styles = StyleSheet.create({
   },
 
   Coffes: {
-    flex: 1,
     backgroundColor: THEME.COLORS.GREY_900,
     marginTop: 54,
   },

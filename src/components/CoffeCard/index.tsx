@@ -9,7 +9,11 @@ export function CoffeeCard({ id, description, image, name, price }: CoffeDTO) {
     navigation.navigate("product", { id });
   }
   return (
-    <TouchableOpacity style={Styles.Container} onPress={onShowProduct}>
+    <TouchableOpacity
+      style={Styles.Container}
+      onPress={onShowProduct}
+      activeOpacity={0.8}
+    >
       <Image source={image} alt="Café" style={Styles.Image} />
       <View style={Styles.Content}>
         <View style={Styles.Details}>

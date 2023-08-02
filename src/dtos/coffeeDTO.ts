@@ -3,6 +3,6 @@ export type CoffeDTO = {
   name: string;
   image: any;
   description: string;
-  price: string;
+  price: number;
   category?: string;
 };
