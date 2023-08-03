@@ -41,12 +41,12 @@ export function Product() {
 
   const coffee = COFFES.find((item) => item.id === id)!;
 
-  const error = useSharedValue(0);
+  const errorFeedBack = useSharedValue(0);
 
   const animatedTextErrorFeedbackStyle = useAnimatedStyle(() => {
     return {
       color: interpolateColor(
-        error.value,
+        errorFeedBack.value,
         [0, 1],
         [THEME.COLORS.GREY_400, THEME.COLORS.RED_DARK]
       ),
@@ -70,10 +70,10 @@ export function Product() {
       addItemToCart(item);
       navigation.navigate("catalog");
     } else {
-      error.value = withTiming(1, { duration: 400 });
+      errorFeedBack.value = withTiming(1, { duration: 400 });
       setQuantityNotSelected(true);
       setTimeout(() => {
-        error.value = withTiming(0, { duration: 400 });
+        errorFeedBack.value = withTiming(0, { duration: 400 });
         setQuantityNotSelected(false);
       }, 1000);
     }
