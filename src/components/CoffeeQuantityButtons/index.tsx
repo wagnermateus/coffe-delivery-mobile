@@ -1,67 +1,29 @@
-import { TouchableOpacity, Text, View } from "react-native";
+import { TouchableOpacity, TouchableOpacityProps, Text } from "react-native";
 import { Styles } from "./styles";
-import { useState } from "react";
-import { useCart } from "../../hooks/useCart";
 
-export function CoffeeQuantityButtons() {
-  const { currentAmountOfCoffeeInMl, selectAmountOfCoffeeInMl } = useCart();
+type CoffeeQuantityButton = TouchableOpacityProps & {
+  title: "114ml" | "140ml" | "227ml";
+  isChecked: boolean;
+};
 
+export function CoffeeQuantityButton({
+  title,
+  isChecked = false,
+  ...rest
+}: CoffeeQuantityButton) {
   return (
-    <View style={Styles.Container}>
-      <TouchableOpacity
+    <TouchableOpacity
+      style={isChecked ? Styles.SelectedOptionButton : Styles.Container}
+      activeOpacity={0.7}
+      {...rest}
+    >
+      <Text
         style={
-          currentAmountOfCoffeeInMl === "114ml"
-            ? Styles.SelectedOptionButton
-            : Styles.Button
+          isChecked ? Styles.SelectedOptionButtonTitle : Styles.ButtonTitle
         }
-        onPress={() => selectAmountOfCoffeeInMl("114ml")}
       >
-        <Text
-          style={
-            currentAmountOfCoffeeInMl === "114ml"
-              ? Styles.SelectedOptionButtonTitle
-              : Styles.ButtonTitle
-          }
-        >
-          114ml
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={
-          currentAmountOfCoffeeInMl === "140ml"
-            ? Styles.SelectedOptionButton
-            : Styles.Button
-        }
-        onPress={() => selectAmountOfCoffeeInMl("140ml")}
-      >
-        <Text
-          style={
-            currentAmountOfCoffeeInMl === "140ml"
-              ? Styles.SelectedOptionButtonTitle
-              : Styles.ButtonTitle
-          }
-        >
-          140ml
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={
-          currentAmountOfCoffeeInMl === "227ml"
-            ? Styles.SelectedOptionButton
-            : Styles.Button
-        }
-        onPress={() => selectAmountOfCoffeeInMl("227ml")}
-      >
-        <Text
-          style={
-            currentAmountOfCoffeeInMl === "227ml"
-              ? Styles.SelectedOptionButtonTitle
-              : Styles.ButtonTitle
-          }
-        >
-          227ml
-        </Text>
-      </TouchableOpacity>
-    </View>
+        {title}
+      </Text>
+    </TouchableOpacity>
   );
 }

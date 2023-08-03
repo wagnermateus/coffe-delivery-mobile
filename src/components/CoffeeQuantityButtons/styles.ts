@@ -3,10 +3,6 @@ import { THEME } from "../../styles/theme";
 
 export const Styles = StyleSheet.create({
   Container: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  Button: {
     width: "31.5%",
     height: 40,
     backgroundColor: THEME.COLORS.GREY_700,

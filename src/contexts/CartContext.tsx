@@ -4,11 +4,9 @@ export type CartContextDataProps = {
   quantityOfItemsInCart: number;
   items: ItemProps[];
   currentCounterValue: number;
-  currentAmountOfCoffeeInMl: string;
   addItemToCart: (item: ItemProps) => void;
   incrementTheCounterValue: () => void;
   decrementTheCounterValue: () => void;
-  selectAmountOfCoffeeInMl: (quantity: string) => void;
   removeItemFromCart: (id: number) => void;
   calculateTheTotalAmountPayable: () => void;
   clearCart: () => void;
@@ -32,8 +30,7 @@ export const CartContext = createContext({} as CartContextDataProps);
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [items, setItems] = useState<ItemProps[]>([]);
   const [currentCounterValue, setCurrentCounterValue] = useState(1);
-  const [currentAmountOfCoffeeInMl, setCurrentAmountOfCoffeeInMl] =
-    useState("114ml");
+
   const [totalPayable, setTotalPayable] = useState(0);
 
   const quantityOfItemsInCart = items.length;
@@ -50,7 +47,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
 
     //Reset default values
     setCurrentCounterValue(1);
-    setCurrentAmountOfCoffeeInMl("114ml");
   }
   function removeItemFromCart(id: number) {
     const itemsWithoutTheSelected = items.filter((coffee) => coffee.id !== id);
@@ -67,10 +63,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     if (currentCounterValue > 1) {
       setCurrentCounterValue((prevState) => prevState - 1);
     }
-  }
-
-  function selectAmountOfCoffeeInMl(quantity: string) {
-    setCurrentAmountOfCoffeeInMl(quantity);
   }
 
   function calculateTheTotalAmountPayable() {
@@ -99,8 +91,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         currentCounterValue,
         incrementTheCounterValue,
         decrementTheCounterValue,
-        currentAmountOfCoffeeInMl,
-        selectAmountOfCoffeeInMl,
         removeItemFromCart,
         calculateTheTotalAmountPayable,
         totalPayable,

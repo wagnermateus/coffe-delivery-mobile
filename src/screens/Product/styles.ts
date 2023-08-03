@@ -79,4 +79,8 @@ export const Styles = StyleSheet.create({
 
     backgroundColor: THEME.COLORS.GREY_700,
   },
+  QuantityButtons: {
+    flexDirection: "row",
+    gap: 8,
+  },
 });

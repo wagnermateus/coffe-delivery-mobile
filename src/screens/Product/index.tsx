@@ -8,20 +8,24 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { COFFES } from "../../data/coffes";
 import { Loading } from "../../components/Loading";
 
-import { CoffeeQuantityButtons } from "../../components/CoffeeQuantityButtons";
+import { CoffeeQuantityButton } from "../../components/CoffeeQuantityButtons";
 import { Button } from "../../components/Button";
 import { Counter } from "../../components/Counter";
 import { CoffeeWithSmoke } from "../../components/CoffeeWithSmoke";
 import { GoBackButton } from "../../components/GoBackButton";
 import { useCart } from "../../hooks/useCart";
 import { ItemProps } from "../../contexts/CartContext";
+import { useState } from "react";
 type RouteParamsProps = {
   id: number;
 };
 
 export function Product() {
-  const { addItemToCart, currentAmountOfCoffeeInMl, currentCounterValue } =
-    useCart();
+  const [selectedQuantity, setSelectedQuantity] = useState<
+    "114ml" | "140ml" | "227ml" | undefined
+  >(undefined);
+
+  const { addItemToCart, currentCounterValue } = useCart();
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -29,18 +33,24 @@ export function Product() {
 
   const coffee = COFFES.find((item) => item.id === id)!;
 
+  function handleSelectQuantity(quantity: typeof selectedQuantity) {
+    setSelectedQuantity(quantity);
+  }
   function handleAddToCart() {
-    const item: ItemProps = {
-      id: coffee.id,
-      name: coffee.name,
-      image: coffee.image,
-      price: coffee.price,
-      amountInMl: currentAmountOfCoffeeInMl,
-      quantity: currentCounterValue,
-    };
+    if (selectedQuantity !== undefined) {
+      const item: ItemProps = {
+        id: coffee.id,
+        name: coffee.name,
+        image: coffee.image,
+        price: coffee.price,
+        amountInMl: selectedQuantity,
+        quantity: currentCounterValue,
+      };
 
-    addItemToCart(item);
-    navigation.navigate("catalog");
+      addItemToCart(item);
+      navigation.navigate("catalog");
+    } else {
+    }
   }
   if (!coffee) {
     return <Loading />;
@@ -73,7 +83,23 @@ export function Product() {
         </View>
         <View style={Styles.Footer}>
           <Text style={Styles.FooterTitle}>Selecione o tamanho:</Text>
-          <CoffeeQuantityButtons />
+          <View style={Styles.QuantityButtons}>
+            <CoffeeQuantityButton
+              title="114ml"
+              isChecked={selectedQuantity === "114ml"}
+              onPress={() => handleSelectQuantity("114ml")}
+            />
+            <CoffeeQuantityButton
+              title="140ml"
+              isChecked={selectedQuantity === "140ml"}
+              onPress={() => handleSelectQuantity("140ml")}
+            />
+            <CoffeeQuantityButton
+              title="227ml"
+              isChecked={selectedQuantity === "227ml"}
+              onPress={() => handleSelectQuantity("227ml")}
+            />
+          </View>
           <View style={Styles.AddToCart}>
             <Counter />
             <Button
