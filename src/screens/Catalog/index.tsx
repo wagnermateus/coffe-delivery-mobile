@@ -206,33 +206,33 @@ export function Catalog() {
                 <Text style={Styles.Category}>Especiais</Text>
               </TouchableOpacity>
             </View>
+            <SectionList
+              scrollEnabled={false}
+              ref={sectionListRef}
+              sections={coffesSections}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <CoffeeCard
+                  description={item.description}
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                  price={item.price}
+                />
+              )}
+              renderSectionHeader={({ section: { title } }) => (
+                <Text style={Styles.CategoryName}>{title}</Text>
+              )}
+              contentContainerStyle={{
+                gap: 32,
+              }}
+              ListEmptyComponent={() => (
+                <Text style={{ marginBottom: 50 }}>
+                  Ups!Nenhum café foi encontrado !
+                </Text>
+              )}
+            />
           </Animated.View>
-          <SectionList
-            scrollEnabled={false}
-            ref={sectionListRef}
-            sections={coffesSections}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <CoffeeCard
-                description={item.description}
-                id={item.id}
-                image={item.image}
-                name={item.name}
-                price={item.price}
-              />
-            )}
-            renderSectionHeader={({ section: { title } }) => (
-              <Text style={Styles.CategoryName}>{title}</Text>
-            )}
-            contentContainerStyle={{
-              gap: 32,
-            }}
-            ListEmptyComponent={() => (
-              <Text style={{ marginBottom: 50 }}>
-                Ups!Nenhum café foi encontrado !
-              </Text>
-            )}
-          />
         </View>
       </Animated.ScrollView>
     </SafeAreaView>

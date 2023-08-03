@@ -1,6 +1,7 @@
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { Styles } from "./styles";
 import Animated, {
+  Keyframe,
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
@@ -15,15 +16,18 @@ const AnimatedTouchableOpacity =
 type CoffeeQuantityButton = TouchableOpacityProps & {
   title: "114ml" | "140ml" | "227ml";
   isChecked: boolean;
+  errorFeedBack: boolean;
 };
 
 export function CoffeeQuantityButton({
   title,
   isChecked = false,
+  errorFeedBack = false,
   ...rest
 }: CoffeeQuantityButton) {
   const checked = useSharedValue(1);
   const scale = useSharedValue(1);
+  const error = useSharedValue(0);
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {
@@ -41,6 +45,7 @@ export function CoffeeQuantityButton({
       ),
     };
   });
+
   const animatedTextStyle = useAnimatedStyle(() => {
     return {
       color: interpolateColor(
@@ -50,13 +55,32 @@ export function CoffeeQuantityButton({
       ),
     };
   });
+
+  const animatedErrorFeedbackStyle = useAnimatedStyle(() => {
+    return {
+      borderWidth: error.value,
+      borderColor: interpolateColor(
+        error.value,
+        [0, 1],
+        ["transparent", THEME.COLORS.RED_DARK]
+      ),
+    };
+  });
   useEffect(() => {
     checked.value = withTiming(isChecked ? 1 : 0);
     scale.value = withTiming(isChecked ? 1.1 : 1);
   }, [isChecked]);
+
+  useEffect(() => {
+    error.value = withTiming(errorFeedBack ? 1 : 0, { duration: 400 });
+  }, [errorFeedBack]);
   return (
     <AnimatedTouchableOpacity
-      style={[animatedContainerStyle, Styles.Container]}
+      style={[
+        animatedContainerStyle,
+        Styles.Container,
+        animatedErrorFeedbackStyle,
+      ]}
       activeOpacity={0.7}
       {...rest}
     >

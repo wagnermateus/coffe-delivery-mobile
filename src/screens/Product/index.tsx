@@ -15,6 +15,13 @@ import { GoBackButton } from "../../components/GoBackButton";
 import { useCart } from "../../hooks/useCart";
 import { ItemProps } from "../../contexts/CartContext";
 import { useState } from "react";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { THEME } from "../../styles/theme";
 type RouteParamsProps = {
   id: number;
 };
@@ -24,6 +31,8 @@ export function Product() {
     "114ml" | "140ml" | "227ml" | undefined
   >(undefined);
 
+  const [quantityNotSelected, setQuantityNotSelected] = useState(false);
+
   const { addItemToCart, currentCounterValue } = useCart();
   const navigation = useNavigation();
   const route = useRoute();
@@ -31,6 +40,18 @@ export function Product() {
   const { id } = route.params as RouteParamsProps;
 
   const coffee = COFFES.find((item) => item.id === id)!;
+
+  const error = useSharedValue(0);
+
+  const animatedTextErrorFeedbackStyle = useAnimatedStyle(() => {
+    return {
+      color: interpolateColor(
+        error.value,
+        [0, 1],
+        [THEME.COLORS.GREY_400, THEME.COLORS.RED_DARK]
+      ),
+    };
+  });
 
   function handleSelectQuantity(quantity: typeof selectedQuantity) {
     setSelectedQuantity(quantity);
@@ -49,6 +70,12 @@ export function Product() {
       addItemToCart(item);
       navigation.navigate("catalog");
     } else {
+      error.value = withTiming(1, { duration: 400 });
+      setQuantityNotSelected(true);
+      setTimeout(() => {
+        error.value = withTiming(0, { duration: 400 });
+        setQuantityNotSelected(false);
+      }, 1000);
     }
   }
 
@@ -79,21 +106,28 @@ export function Product() {
           <CoffeeWithSmoke />
         </View>
         <View style={Styles.Footer}>
-          <Text style={Styles.FooterTitle}>Selecione o tamanho:</Text>
+          <Animated.Text
+            style={[Styles.FooterTitle, animatedTextErrorFeedbackStyle]}
+          >
+            Selecione o tamanho:
+          </Animated.Text>
           <View style={Styles.QuantityButtons}>
             <CoffeeQuantityButton
               title="114ml"
               isChecked={selectedQuantity === "114ml"}
+              errorFeedBack={quantityNotSelected}
               onPress={() => handleSelectQuantity("114ml")}
             />
             <CoffeeQuantityButton
               title="140ml"
               isChecked={selectedQuantity === "140ml"}
+              errorFeedBack={quantityNotSelected}
               onPress={() => handleSelectQuantity("140ml")}
             />
             <CoffeeQuantityButton
               title="227ml"
               isChecked={selectedQuantity === "227ml"}
+              errorFeedBack={quantityNotSelected}
               onPress={() => handleSelectQuantity("227ml")}
             />
           </View>
