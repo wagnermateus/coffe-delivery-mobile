@@ -6,7 +6,6 @@ import { CartButton } from "../../components/CartButton";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { COFFES } from "../../data/coffes";
-import { Loading } from "../../components/Loading";
 
 import { CoffeeQuantityButton } from "../../components/CoffeeQuantityButtons";
 import { Button } from "../../components/Button";
@@ -52,9 +51,7 @@ export function Product() {
     } else {
     }
   }
-  if (!coffee) {
-    return <Loading />;
-  }
+
   return (
     <ScrollView>
       <SafeAreaView style={Styles.Container}>
