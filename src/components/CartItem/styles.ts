@@ -3,10 +3,12 @@ import { THEME } from "../../styles/theme";
 
 export const Styles = StyleSheet.create({
   Container: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     borderBottomWidth: 1,
     borderBottomColor: THEME.COLORS.GREY_700,
+    backgroundColor: THEME.COLORS.GREY_900,
 
     paddingVertical: 16,
     paddingHorizontal: 32,
@@ -50,5 +52,15 @@ export const Styles = StyleSheet.create({
     fontFamily: THEME.FONTS.BALOO_BOLD,
     fontSize: THEME.FONT_SIZE.SM,
     color: THEME.COLORS.GREY_100,
+  },
+  SwipeableContainer: {
+    backgroundColor: THEME.COLORS.RED_LIGHT,
+  },
+  SwipeableRemove: {
+    width: 90,
+    borderRadius: 6,
+    backgroundColor: THEME.COLORS.RED_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

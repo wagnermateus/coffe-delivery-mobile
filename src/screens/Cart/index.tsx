@@ -7,6 +7,8 @@ import { GoBackButton } from "../../components/GoBackButton";
 import { CartItem } from "../../components/CartItem";
 import { useNavigation } from "@react-navigation/native";
 import { useCart } from "../../hooks/useCart";
+import { ShoppingCart } from "phosphor-react-native";
+import { THEME } from "../../styles/theme";
 
 export function Cart() {
   const { items, totalPayable, clearCart } = useCart();
@@ -40,24 +42,51 @@ export function Cart() {
             />
           )}
           ListEmptyComponent={() => (
-            <Text>Ups! O seu carrinho está vazio!</Text>
+            <View style={Styles.EmptyList}>
+              <View style={{ alignItems: "center" }}>
+                <ShoppingCart
+                  color={THEME.COLORS.GREY_500}
+                  size={24}
+                  weight="fill"
+                />
+              </View>
+              <Text style={Styles.EmptyText}>O seu carrinho está vazio!</Text>
+              <View style={{ height: 46 }}>
+                <Button
+                  title="Ver catálogo"
+                  type="primary"
+                  onPress={() => navigation.navigate("catalog")}
+                />
+              </View>
+            </View>
           )}
+          contentContainerStyle={[
+            items.length === 0 && {
+              flex: 1,
+              paddingTop: 64,
+              alignItems: "center",
+            },
+          ]}
         />
       </View>
 
-      <View style={Styles.Footer}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={Styles.TotalText}>Valor total</Text>
-          <Text style={Styles.TotalValue}>KZS {totalPayable}</Text>
+      {items.length > 0 && (
+        <View style={Styles.Footer}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={Styles.TotalText}>Valor total</Text>
+            <Text style={Styles.TotalValue}>KZS {totalPayable}</Text>
+          </View>
+
+          <Button
+            disabled={noItemsInCart}
+            title="Confirmar pedido"
+            type="secondary"
+            onPress={handleConfirmOrder}
+          />
         </View>
-
-        <Button
-          disabled={noItemsInCart}
-          title="Confirmar pedido"
-          type="secondary"
-          onPress={handleConfirmOrder}
-        />
-      </View>
+      )}
     </SafeAreaView>
   );
 }

@@ -1,3 +1,5 @@
+import "react-native-gesture-handler";
+
 import { StatusBar } from "react-native";
 import {
   useFonts,
@@ -8,6 +10,7 @@ import { Baloo2_700Bold } from "@expo-google-fonts/baloo-2";
 
 import { Loading } from "./src/components/Loading";
 import { Routes } from "./src/routes";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,13 +20,13 @@ export default function App() {
   });
 
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar
         barStyle="light-content"
         backgroundColor="transparent"
         translucent
       />
       {fontsLoaded ? <Routes /> : <Loading />}
-    </>
+    </GestureHandlerRootView>
   );
 }

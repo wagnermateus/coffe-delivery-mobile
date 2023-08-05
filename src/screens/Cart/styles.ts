@@ -47,4 +47,15 @@ export const Styles = StyleSheet.create({
     fontSize: THEME.FONT_SIZE.MD,
     color: THEME.COLORS.GREY_200,
   },
+  EmptyList: {
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  EmptyText: {
+    fontFamily: THEME.FONTS.ROBOTO_REGULAR,
+    fontSize: THEME.FONT_SIZE.SM,
+    color: THEME.COLORS.GREY_400,
+    marginBottom: 32,
+    marginTop: 12,
+  },
 });

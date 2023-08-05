@@ -22,12 +22,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Animated, {
   FadeInUp,
+  interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
 import { CartToast } from "../../components/CartToast";
-import { useCart } from "../../hooks/useCart";
+
+const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 
 type CoffesSectionsProps = typeof COFFES_SECTIONS;
 
@@ -62,26 +64,32 @@ export function Catalog() {
     });
   }
 
-  const fixedNavbar = useAnimatedStyle(() => {
+  const animatedContainerStyles = useAnimatedStyle(() => {
     return {
-      //position: "absolute",
+      backgroundColor: interpolateColor(
+        scrollY.value,
+        [22, 533],
+        [THEME.COLORS.GREY_100, THEME.COLORS.GREY_900]
+      ),
     };
   });
+
+  const animatedNavbarTextStyles = useAnimatedStyle(() => {
+    return {
+      color: interpolateColor(
+        scrollY.value,
+        [22, 533],
+        [THEME.COLORS.GREY_900, THEME.COLORS.GREY_200]
+      ),
+    };
+  });
+
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollY.value = event.contentOffset.y;
-      console.log(event.contentOffset.y);
     },
   });
-  const animatedCatogoryList = useAnimatedStyle(() => {
-    return {
-      backgroundColor: THEME.COLORS.GREY_900,
-      paddingHorizontal: 32,
-      borderBottomColor: THEME.COLORS.GREY_700,
-      borderBottomWidth: 1,
-      display: "none",
-    };
-  });
+
   function handleSearchCoffe({ coffeeName }: FormDataProps) {
     const foundCoffees: CoffesSectionsProps = [];
 
@@ -106,8 +114,8 @@ export function Catalog() {
   }, [searchInputIsEmpty]);
 
   return (
-    <SafeAreaView style={Styles.Container}>
-      <Animated.View style={[Styles.Navbar, fixedNavbar]}>
+    <AnimatedSafeAreaView style={[Styles.Container, animatedContainerStyles]}>
+      <Animated.View style={[Styles.Navbar]}>
         <View
           style={{
             flexDirection: "row",
@@ -115,7 +123,9 @@ export function Catalog() {
         >
           <MapPin size={20} color={THEME.COLORS.PURPLE} weight="fill" />
 
-          <Text style={Styles.Location}>Kilamba Kiaxi, LD</Text>
+          <Animated.Text style={[Styles.Location, animatedNavbarTextStyles]}>
+            Kilamba Kiaxi, LD
+          </Animated.Text>
         </View>
         <CartButton />
       </Animated.View>
@@ -124,7 +134,6 @@ export function Catalog() {
         onScroll={scrollHandler}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
-        scrollEnabled={true}
       >
         <View style={Styles.SearchBar}>
           <Text style={Styles.Title}>
@@ -237,6 +246,6 @@ export function Catalog() {
         </View>
       </Animated.ScrollView>
       <CartToast />
-    </SafeAreaView>
+    </AnimatedSafeAreaView>
   );
 }

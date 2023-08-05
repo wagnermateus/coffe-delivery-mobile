@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import Deliveryman from "../../assets/deliveryman.svg";
 import { Button } from "../../components/Button";
 import { Styles } from "./style";

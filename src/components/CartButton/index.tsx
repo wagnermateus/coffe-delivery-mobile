@@ -15,7 +15,7 @@ export function CartButton() {
     navigation.navigate("cart");
   }
   return (
-    <TouchableOpacity onPress={handleGoToCart} disabled={noItemsInCart}>
+    <TouchableOpacity onPress={handleGoToCart}>
       {!isEmpty && (
         <View style={Styles.CounterBall}>
           <Text style={Styles.Counter}>{quantityOfItemsInCart}</Text>
