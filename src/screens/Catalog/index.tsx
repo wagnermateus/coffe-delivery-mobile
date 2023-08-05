@@ -6,8 +6,6 @@ import {
   FlatList,
   TouchableOpacity,
   SectionList,
-  ScrollViewProps,
-  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Styles } from "./styles";
@@ -42,8 +40,6 @@ const SearchCoffesSchema = yup.object({
 export function Catalog() {
   const [coffesSections, setCoffesSction] =
     useState<CoffesSectionsProps>(COFFES_SECTIONS);
-
-  const { items } = useCart();
 
   const { handleSubmit, watch, control } = useForm<FormDataProps>({
     resolver: yupResolver(SearchCoffesSchema),
@@ -108,6 +104,7 @@ export function Catalog() {
       setCoffesSction(COFFES_SECTIONS);
     }
   }, [searchInputIsEmpty]);
+
   return (
     <SafeAreaView style={Styles.Container}>
       <Animated.View style={[Styles.Navbar, fixedNavbar]}>
@@ -239,7 +236,7 @@ export function Catalog() {
           </Animated.View>
         </View>
       </Animated.ScrollView>
-      {items.length > 0 && <CartToast />}
+      <CartToast />
     </SafeAreaView>
   );
 }

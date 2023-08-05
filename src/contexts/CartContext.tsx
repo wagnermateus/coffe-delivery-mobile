@@ -11,6 +11,7 @@ export type CartContextDataProps = {
   calculateTheTotalAmountPayable: () => void;
   clearCart: () => void;
   totalPayable: number;
+  newItemAddedToCart: boolean;
 };
 
 export type ItemProps = {
@@ -30,9 +31,8 @@ export const CartContext = createContext({} as CartContextDataProps);
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [items, setItems] = useState<ItemProps[]>([]);
   const [currentCounterValue, setCurrentCounterValue] = useState(1);
-
   const [totalPayable, setTotalPayable] = useState(0);
-
+  const [newItemAddedToCart, setNewItemAddedToCart] = useState(false);
   const quantityOfItemsInCart = items.length;
 
   function addItemToCart(item: ItemProps) {
@@ -45,8 +45,20 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     }
     setItems((prevState) => [...prevState, item]);
 
+    showToastNotification();
+
     //Reset default values
+    resetValues();
+  }
+  function showToastNotification() {
+    setNewItemAddedToCart(true);
+  }
+  function resetValues() {
     setCurrentCounterValue(1);
+
+    setTimeout(() => {
+      setNewItemAddedToCart(false);
+    }, 5000);
   }
   function removeItemFromCart(id: number) {
     const itemsWithoutTheSelected = items.filter((coffee) => coffee.id !== id);
@@ -95,6 +107,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         calculateTheTotalAmountPayable,
         totalPayable,
         clearCart,
+        newItemAddedToCart,
       }}
     >
       {children}

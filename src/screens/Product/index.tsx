@@ -7,7 +7,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { COFFES } from "../../data/coffes";
 
-import { CoffeeQuantityButton } from "../../components/CoffeeQuantityButtons";
+import { CoffeeQuantityButton } from "../../components/CoffeeQuantityButton";
 import { Button } from "../../components/Button";
 import { Counter } from "../../components/Counter";
 import { CoffeeWithSmoke } from "../../components/CoffeeWithSmoke";

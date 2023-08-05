@@ -4,9 +4,10 @@ import { useCart } from "../../hooks/useCart";
 import { ArrowRight, ShoppingCart } from "phosphor-react-native";
 import { THEME } from "../../styles/theme";
 import { useNavigation } from "@react-navigation/native";
+import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 
 export function CartToast() {
-  const { items } = useCart();
+  const { items, newItemAddedToCart } = useCart();
   const navigation = useNavigation();
 
   const coffee = items[items.length - 1];
@@ -14,8 +15,16 @@ export function CartToast() {
   function handleSeeCart() {
     navigation.navigate("cart");
   }
+
+  if (!newItemAddedToCart) {
+    return <></>;
+  }
   return (
-    <View style={Styles.Container}>
+    <Animated.View
+      style={Styles.Container}
+      entering={FadeInDown.delay(600)}
+      exiting={FadeOutDown.delay(600)}
+    >
       <View>
         <View style={Styles.CounterBall}>
           <Text style={Styles.Counter}>{coffee.quantity}</Text>
@@ -36,6 +45,6 @@ export function CartToast() {
         <Text style={Styles.ButtonTitle}>Ver</Text>
         <ArrowRight color={THEME.COLORS.PURPLE} size={16} />
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 }
