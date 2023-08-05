@@ -28,6 +28,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import { CartToast } from "../../components/CartToast";
+import { useCart } from "../../hooks/useCart";
 
 type CoffesSectionsProps = typeof COFFES_SECTIONS;
 
@@ -40,6 +42,8 @@ const SearchCoffesSchema = yup.object({
 export function Catalog() {
   const [coffesSections, setCoffesSction] =
     useState<CoffesSectionsProps>(COFFES_SECTIONS);
+
+  const { items } = useCart();
 
   const { handleSubmit, watch, control } = useForm<FormDataProps>({
     resolver: yupResolver(SearchCoffesSchema),
@@ -235,6 +239,7 @@ export function Catalog() {
           </Animated.View>
         </View>
       </Animated.ScrollView>
+      {items.length > 0 && <CartToast />}
     </SafeAreaView>
   );
 }

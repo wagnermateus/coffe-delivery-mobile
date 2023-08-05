@@ -21,13 +21,12 @@ export function CartButton() {
           <Text style={Styles.Counter}>{quantityOfItemsInCart}</Text>
         </View>
       )}
-      <Text>
-        <ShoppingCart
-          color={isEmpty ? THEME.COLORS.YELLOW_DARK : THEME.COLORS.PURPLE}
-          size={20}
-          weight="fill"
-        />
-      </Text>
+
+      <ShoppingCart
+        color={isEmpty ? THEME.COLORS.YELLOW_DARK : THEME.COLORS.PURPLE}
+        size={20}
+        weight="fill"
+      />
     </TouchableOpacity>
   );
 }
