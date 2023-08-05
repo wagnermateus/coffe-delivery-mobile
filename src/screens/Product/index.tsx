@@ -70,15 +70,20 @@ export function Product() {
       addItemToCart(item);
       navigation.navigate("catalog");
     } else {
-      errorFeedBack.value = withTiming(1, { duration: 400 });
-      setQuantityNotSelected(true);
-      setTimeout(() => {
-        errorFeedBack.value = withTiming(0, { duration: 400 });
-        setQuantityNotSelected(false);
-      }, 1000);
+      showErrorFeedback();
     }
   }
 
+  function showErrorFeedback() {
+    errorFeedBack.value = withTiming(1, { duration: 400 });
+
+    setQuantityNotSelected(true);
+
+    setTimeout(() => {
+      errorFeedBack.value = withTiming(0, { duration: 400 });
+      setQuantityNotSelected(false);
+    }, 1000);
+  }
   return (
     <ScrollView>
       <SafeAreaView style={Styles.Container}>

@@ -1,14 +1,13 @@
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { Styles } from "./styles";
 import Animated, {
-  Keyframe,
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import { THEME } from "../../styles/theme";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
@@ -74,6 +73,7 @@ export function CoffeeQuantityButton({
   useEffect(() => {
     error.value = withTiming(errorFeedBack ? 1 : 0, { duration: 400 });
   }, [errorFeedBack]);
+
   return (
     <AnimatedTouchableOpacity
       style={[
