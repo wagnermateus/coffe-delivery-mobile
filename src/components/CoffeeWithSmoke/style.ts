@@ -15,4 +15,12 @@ export const Style = StyleSheet.create({
   Cup: {
     width: "100%",
   },
+  Canvas: {
+    position: "absolute",
+    bottom: 220,
+    width: 100,
+    height: 137,
+
+    zIndex: 1,
+  },
 });
