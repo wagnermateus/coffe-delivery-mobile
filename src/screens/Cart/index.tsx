@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useCart } from "../../hooks/useCart";
 import { ShoppingCart } from "phosphor-react-native";
 import { THEME } from "../../styles/theme";
+import * as Haptics from "expo-haptics";
 
 export function Cart() {
   const { items, totalPayable, clearCart } = useCart();
@@ -16,7 +17,8 @@ export function Cart() {
 
   const noItemsInCart = items.length === 0;
 
-  function handleConfirmOrder() {
+  async function handleConfirmOrder() {
+    await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     navigation.navigate("checkout");
     clearCart();
   }

@@ -6,7 +6,7 @@ import { CartButton } from "../../components/CartButton";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { COFFES } from "../../data/coffes";
-
+import * as Haptics from "expo-haptics";
 import { CoffeeQuantityButton } from "../../components/CoffeeQuantityButton";
 import { Button } from "../../components/Button";
 import { Counter } from "../../components/Counter";
@@ -74,10 +74,12 @@ export function Product() {
     }
   }
 
-  function showErrorFeedback() {
+  async function showErrorFeedback() {
     errorFeedBack.value = withTiming(1, { duration: 400 });
 
     setQuantityNotSelected(true);
+
+    await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
 
     setTimeout(() => {
       errorFeedBack.value = withTiming(0, { duration: 400 });

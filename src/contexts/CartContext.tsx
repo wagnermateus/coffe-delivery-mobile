@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { Audio } from "expo-av";
 
 export type CartContextDataProps = {
   quantityOfItemsInCart: number;
@@ -35,7 +36,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   const [newItemAddedToCart, setNewItemAddedToCart] = useState(false);
   const quantityOfItemsInCart = items.length;
 
-  function addItemToCart(item: ItemProps) {
+  async function addItemToCart(item: ItemProps) {
     const itemAlreadyInCart = items.find((coffe) => coffe.id === item.id);
 
     if (itemAlreadyInCart) {
@@ -45,10 +46,16 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     }
     setItems((prevState) => [...prevState, item]);
 
+    playSound();
     showToastNotification();
-
-    //Reset default values
     resetValues();
+  }
+
+  async function playSound() {
+    const file = require("../assets/added.mp3");
+    const { sound } = await Audio.Sound.createAsync(file, { shouldPlay: true });
+    await sound.setPositionAsync(0);
+    await sound.playAsync();
   }
   function showToastNotification() {
     setNewItemAddedToCart(true);
