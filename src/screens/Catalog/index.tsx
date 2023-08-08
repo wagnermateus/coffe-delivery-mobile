@@ -23,6 +23,7 @@ import * as yup from "yup";
 import Animated, {
   FadeInUp,
   interpolateColor,
+  useAnimatedRef,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -30,7 +31,7 @@ import Animated, {
 import { CartToast } from "../../components/CartToast";
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
-
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 type CoffesSectionsProps = typeof COFFES_SECTIONS;
 
 type FormDataProps = {
@@ -40,6 +41,7 @@ const SearchCoffesSchema = yup.object({
   coffeeName: yup.string().required(),
 });
 export function Catalog() {
+  const [scrollValue, setScrollValue] = useState(0);
   const [coffesSections, setCoffesSction] =
     useState<CoffesSectionsProps>(COFFES_SECTIONS);
 
@@ -53,7 +55,7 @@ export function Catalog() {
 
   const scrollY = useSharedValue(0);
 
-  const sectionListRef = useRef<SectionList>(null);
+  const sectionListRef = useAnimatedRef<SectionList>();
 
   function handleScrollToSection(sectionIndex: number) {
     sectionListRef.current?.scrollToLocation({
@@ -130,121 +132,120 @@ export function Catalog() {
         <CartButton />
       </Animated.View>
 
-      <Animated.ScrollView
+      <AnimatedSectionList
         onScroll={scrollHandler}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}
-      >
-        <View style={Styles.SearchBar}>
-          <Text style={Styles.Title}>
-            Encontre o café perfeito para qualquer hora do dia
-          </Text>
-          <View style={Styles.InputWrapper}>
-            <MagnifyingGlass size={16} color={THEME.COLORS.GREY_400} />
-            <Controller
-              control={control}
-              name="coffeeName"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  style={Styles.Input}
-                  placeholder="Pesquisar"
-                  placeholderTextColor={THEME.COLORS.GREY_400}
-                  onChangeText={onChange}
-                  value={value}
-                  onSubmitEditing={handleSubmit(handleSearchCoffe)}
-                  returnKeyType="send"
+        ref={sectionListRef}
+        sections={coffesSections}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={() => (
+          <Animated.View style={animatedContainerStyles}>
+            <View style={Styles.SearchBar}>
+              <Text style={Styles.Title}>
+                Encontre o café perfeito para qualquer hora do dia
+              </Text>
+              <View style={Styles.InputWrapper}>
+                <MagnifyingGlass size={16} color={THEME.COLORS.GREY_400} />
+                <Controller
+                  control={control}
+                  name="coffeeName"
+                  render={({ field: { onChange, value } }) => (
+                    <TextInput
+                      style={Styles.Input}
+                      placeholder="Pesquisar"
+                      placeholderTextColor={THEME.COLORS.GREY_400}
+                      onChangeText={onChange}
+                      value={value}
+                      onSubmitEditing={handleSubmit(handleSearchCoffe)}
+                      returnKeyType="send"
+                    />
+                  )}
                 />
-              )}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            alignItems: "flex-end",
-          }}
-        >
-          <Image
-            source={headerBackgroundImage}
-            resizeMode="cover"
-            alt=""
-            style={{
-              right: -28,
-            }}
-          />
-        </View>
-
-        <View style={Styles.Coffes}>
-          <FlatList
-            data={carouselCoffes}
-            keyExtractor={(item) => item.name}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{
-              bottom: 80,
-            }}
-            contentContainerStyle={{
-              gap: 32,
-              paddingTop: 30,
-              paddingBottom: 5,
-              paddingHorizontal: 32,
-            }}
-            renderItem={({ item }) => (
-              <CarouselCoffeeCard
-                description={item.description}
-                id={item.id}
-                image={item.image}
-                name={item.name}
-                price={item.price}
-                category={item.category}
-              />
-            )}
-          />
-
-          <Animated.View
-            style={Styles.CoffeList}
-            entering={FadeInUp.delay(600)}
-          >
-            <Text style={Styles.CoffesSectionTitle}>Nossos cafés</Text>
-            <View style={Styles.CategoryList}>
-              <TouchableOpacity onPress={() => handleScrollToSection(0)}>
-                <Text style={Styles.Category}>Tradicionais</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleScrollToSection(1)}>
-                <Text style={Styles.Category}>Doces</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleScrollToSection(2)}>
-                <Text style={Styles.Category}>Especiais</Text>
-              </TouchableOpacity>
+              </View>
             </View>
-            <SectionList
-              scrollEnabled={false}
-              ref={sectionListRef}
-              sections={coffesSections}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <CoffeeCard
-                  description={item.description}
-                  id={item.id}
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
-                />
-              )}
-              renderSectionHeader={({ section: { title } }) => (
-                <Text style={Styles.CategoryName}>{title}</Text>
-              )}
-              contentContainerStyle={{
-                gap: 32,
+            <View
+              style={{
+                alignItems: "flex-end",
               }}
-              ListEmptyComponent={() => (
-                <Text style={{ marginBottom: 50 }}>
-                  Ups!Nenhum café foi encontrado !
-                </Text>
-              )}
-            />
+            >
+              <Image
+                source={headerBackgroundImage}
+                resizeMode="cover"
+                alt=""
+                style={{
+                  right: -28,
+                }}
+              />
+            </View>
+
+            <View style={Styles.Coffes}>
+              <FlatList
+                data={carouselCoffes}
+                keyExtractor={(item) => item.name}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{
+                  bottom: 80,
+                }}
+                contentContainerStyle={{
+                  gap: 32,
+                  paddingTop: 30,
+                  paddingBottom: 5,
+                  paddingHorizontal: 32,
+                }}
+                renderItem={({ item }) => (
+                  <CarouselCoffeeCard
+                    description={item.description}
+                    id={item.id}
+                    image={item.image}
+                    name={item.name}
+                    price={item.price}
+                    category={item.category}
+                  />
+                )}
+              />
+
+              <Animated.View
+                style={Styles.CoffeList}
+                entering={FadeInUp.delay(600)}
+              >
+                <Text style={Styles.CoffesSectionTitle}>Nossos cafés</Text>
+                <View style={Styles.CategoryList}>
+                  <TouchableOpacity onPress={() => handleScrollToSection(0)}>
+                    <Text style={Styles.Category}>Tradicionais</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleScrollToSection(1)}>
+                    <Text style={Styles.Category}>Doces</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleScrollToSection(2)}>
+                    <Text style={Styles.Category}>Especiais</Text>
+                  </TouchableOpacity>
+                </View>
+              </Animated.View>
+            </View>
           </Animated.View>
-        </View>
-      </Animated.ScrollView>
+        )}
+        renderItem={({ item }) => (
+          <CoffeeCard
+            description={item.description}
+            id={item.id}
+            image={item.image}
+            name={item.name}
+            price={item.price}
+          />
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text style={Styles.CategoryName}>{title}</Text>
+        )}
+        contentContainerStyle={{
+          gap: 32,
+        }}
+        ListEmptyComponent={() => (
+          <Text style={{ marginBottom: 50 }}>
+            Ups!Nenhum café foi encontrado !
+          </Text>
+        )}
+        style={Styles.Content}
+      />
       <CartToast />
     </AnimatedSafeAreaView>
   );

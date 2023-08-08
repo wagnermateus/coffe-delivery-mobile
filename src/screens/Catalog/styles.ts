@@ -81,5 +81,9 @@ export const Styles = StyleSheet.create({
     color: THEME.COLORS.GREY_400,
     fontFamily: THEME.FONTS.BALOO_BOLD,
     fontSize: THEME.FONT_SIZE.SM,
+    paddingHorizontal: 32,
+  },
+  Content: {
+    backgroundColor: THEME.COLORS.GREY_900,
   },
 });

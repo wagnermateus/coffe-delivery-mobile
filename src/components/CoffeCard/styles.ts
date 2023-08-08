@@ -4,6 +4,7 @@ import { THEME } from "../../styles/theme";
 export const Styles = StyleSheet.create({
   Container: {
     maxWidth: 311,
+    alignSelf: "center",
 
     flexDirection: "row",
     gap: 12,
